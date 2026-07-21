@@ -1,0 +1,86 @@
+<div class="card text-bg-light mb-3">
+  <div class="card-header">{{titulo}}</div>
+  <div class="card-body">
+    <button class="btn btn-secondary my-2" routerLink="/cuenta">Volver</button>
+
+    <form>
+      <div class="form-group">
+
+        <div class="row">
+        
+          <div class="col-md-3">
+            <mat-form-field appearance="outline" class="w-100" floatLabel="always">
+              <mat-label>Tipo Cuenta</mat-label>
+              <mat-select [(ngModel)]="model.tipoCuenta" name="tipoCuenta" [compareWith]="compareById" >
+                <mat-option *ngFor="let tipoCuenta of tiposCuenta" [value]="tipoCuenta">
+                  {{ tipoCuenta.nombre }}
+                </mat-option>
+              </mat-select>
+              <div class="alert alert-danger" *ngIf="error?.tipoCuenta">
+              {{ error.tipoCuenta }}
+            </div>
+            </mat-form-field>           
+          </div>
+
+          <div class="col-md-3">
+            <label for="descripcion">Numero Cuenta</label>
+            <input type="text" name="numeroCuenta" class="form-control" [(ngModel)]="model.numeroCuenta" id="numeroCuenta">
+            <div class="alert alert-danger" *ngIf="error && error.numeroCuenta">{{ error.numeroCuenta }}</div>
+          </div>
+
+          
+
+        <div class="col-md-3">
+          <label>Saldo Inicial</label>
+
+          <input type="text"            
+            class="form-control"
+            appMonedaInput
+            [modelo]="model"
+            campo="saldoInicial"
+            [maxDigitos]="10">      
+
+          <div class="alert alert-danger" *ngIf="error?.saldoInicial">
+            {{ error.saldoInicial }}
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Cliente</mat-label>
+
+            <input
+              type="text"
+              matInput
+              [formControl]="clienteControl"
+              [matAutocomplete]="auto" />
+
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              [displayWith]="displayCliente"
+              (optionSelected)="seleccionarCliente($event.option.value)">
+
+              <mat-option *ngFor="let cliente of clientes" [value]="cliente">
+                {{ cliente.nombre }} {{ cliente.apellido }}
+              </mat-option>
+
+            </mat-autocomplete>
+
+            <div class="alert alert-danger" *ngIf="error?.cliente">
+              {{ error.cliente }}
+            </div>
+          </mat-form-field>
+        </div>
+          
+        </div>
+
+      </div>
+
+      <br />
+      <div class="form-group">
+        <button type="button" class="btn btn-primary" (click)="model.id? editar(): crear()">
+          {{ model.id? 'Editar': 'Crear'}}</button>
+      </div>
+    </form>
+  </div>
+</div>

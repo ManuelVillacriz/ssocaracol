@@ -1,0 +1,10 @@
+<ng-container *ngIf="showLayout">
+  <app-sidenav></app-sidenav>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!showLayout">
+  <router-outlet></router-outlet>
+</ng-container>

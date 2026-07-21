@@ -1,0 +1,63 @@
+<div class="card text-bg-light mb-3">
+  <div class="card-header">{{titulo}}</div>
+  <div class="card-body">
+    <button class="btn btn-secondary my-2" routerLink="/movimiento">Volver</button>
+
+    <form>
+      <div class="form-group">
+
+        <div class="row">
+        
+          <div class="col-md-3">
+            <mat-form-field appearance="outline" class="w-100" floatLabel="always">
+              <mat-label>Tipo Movimiento</mat-label>
+              <mat-select [(ngModel)]="model.tipoMovimiento" name="tipoMovimiento" [compareWith]="compareById" >
+                <mat-option *ngFor="let tipoMovimiento of tiposMovimiento" [value]="tipoMovimiento">
+                  {{ tipoMovimiento.nombre }}
+                </mat-option>
+              </mat-select>
+              <div class="alert alert-danger" *ngIf="error?.tipoMovimiento">
+              {{ error.tipoMovimiento }}
+            </div>
+            </mat-form-field>           
+          </div>
+
+          <div class="col-md-3">
+            <label for="descripcion">Valor</label>
+
+            <input type="text"
+            class="form-control"
+            appMonedaInput
+            [modelo]="model"
+            campo="valor"
+             [maxDigitos]="10">      
+
+            <div class="alert alert-danger" *ngIf="error && error.valor">{{ error.valor }}</div>
+          </div>
+
+          <div class="col-md-3">
+            <mat-form-field appearance="outline" class="w-100" floatLabel="always">
+              <mat-label>Cuenta</mat-label>
+              <mat-select [(ngModel)]="model.cuenta" name="cuenta" [compareWith]="compareById" >
+                <mat-option *ngFor="let cuenta of cuentas" [value]="cuenta">
+                  {{ cuenta.numeroCuenta }}
+                </mat-option>
+              </mat-select>
+              <div class="alert alert-danger" *ngIf="error?.cuenta">
+              {{ error.cuenta }}
+            </div>
+            </mat-form-field>           
+          </div>
+          
+        </div>
+
+      </div>
+
+      <br />
+      <div class="form-group">
+        <button type="button" class="btn btn-primary" (click)="model.id? editar(): crear()">
+          {{ model.id? 'Editar': 'Crear'}}</button>
+      </div>
+    </form>
+  </div>
+</div>

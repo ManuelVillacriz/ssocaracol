@@ -1,0 +1,71 @@
+<div class="card text-bg-light mb-3">
+  <div class="card-header">{{titulo}}</div>
+  <div class="card-body">
+
+    <button class="btn btn-primary my-2" routerLink="/cliente/form">Crear</button>
+
+    <!-- 🔍 BUSCADOR -->
+    <div class="row my-2">
+      <div class="col-md-3">
+        <input 
+          type="text"
+          class="form-control"
+          placeholder="Buscar cliente..."
+          [(ngModel)]="filtro"
+          (input)="buscar()">
+      </div>
+    </div>
+
+    <div class="alert alert-info" *ngIf="lista?.length==0">
+      No hay clientes en el sistema
+    </div>
+
+    <table class="table table-hover table-striped" *ngIf="lista?.length>0">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Nombre</th>          
+          <th>Apellido</th>          
+          <th>Tipo Identificacion</th>
+          <th>Numero Identificacion</th>
+          <th>Direccion</th>
+          <th>Telefono</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of lista">
+          <th></th>
+          <td>{{cliente.nombre}}</td>
+          <td>{{cliente.apellido}}</td>                    
+          <td>{{cliente.tipoIdentificacion.nombre}}</td>
+          <td>{{cliente.numeroIdentificacion}}</td>
+          <td>{{cliente.direccion}}</td>
+          <td>{{cliente.telefono}}</td>
+          <td>
+            <button class="btn btn-secondary brn-small" [routerLink]="['/cliente/form',cliente.id]">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+          <td>
+            <button class="btn btn-danger brn-small" (click)="eliminar(cliente)">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <mat-paginator 
+      [length]="totalRegistros" 
+      [pageSize]="totalPorPagina" 
+      [pageIndex]="paginaActual"
+      [pageSizeOptions]="pageSizeOptions" 
+      (page)="paginar($event)" 
+      showFirstLastButtons 
+      class="float-end mx-2">
+    </mat-paginator>
+
+  </div>
+</div>

@@ -1,0 +1,310 @@
+/* Estructura del Dashboard */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.dashboard-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.app-name {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.right-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.sidenav-container {
+  flex: 1;
+}
+
+/* --- CONTROL DEL SIDENAV --- */
+.custom-sidenav {
+  width: 260px; /* Ancho fijo para evitar desbordamientos */
+  background-color: #0d0f14 !important; /* Fondo oscuro */
+  border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Flexbox vertical dentro del sidenav para mantener el orden */
+.sidenav-content-flex {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-top: 1.5rem;
+}
+
+/* Tarjeta de Perfil */
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  margin: 0 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  box-sizing: border-box;
+}
+
+/* Avatar con la inicial */
+.profile-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.profile-avatar span {
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.profile-role {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.profile-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f8fafc;
+  margin: 0 0 1rem 0;
+  text-transform: capitalize;
+}
+
+/* Botón elegante de Cerrar Sesión limitado */
+.btn-logout-sidebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%; /* Ahora respeta el 100% de la .profile-section (no de la pantalla) */
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+}
+
+.btn-logout-sidebar mat-icon {
+  font-size: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.btn-logout-sidebar:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* Separador */
+.profile-divider {
+  margin: 1.5rem 1rem !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Items del Menú */
+.menu-list {
+  padding: 0 !important;
+}
+
+.nav-item-custom {
+  height: 48px !important;
+  margin: 4px 12px !important;
+  border-radius: 12px !important;
+  color: #94a3b8 !important;
+  transition: all 0.2s ease;
+}
+
+.nav-item-custom:hover {
+  background: rgba(255, 255, 255, 0.03) !important;
+  color: #ffffff !important;
+}
+
+/* Clase para resaltar el link activo */
+.active-link {
+  background: rgba(59, 130, 246, 0.08) !important;
+  color: #3b82f6 !important;
+  font-weight: 600;
+}
+
+/* --- ÁREA DE CONTENIDO PRINCIPAL --- */
+.main-content-area {
+  background-color: #07090e; /* Fondo oscuro unificado */
+  padding: 2rem;
+}
+
+/* --- TOOLBAR / CABECERA --- */
+.dashboard-toolbar {
+  display: flex;
+  align-items: center;
+  z-index: 10;
+  padding: 0 16px;
+}
+
+/* Agrupa el botón de menú y el logo/título pegados a la izquierda */
+.left-brand-section {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espacio controlado entre el botón "hamburguesa" y el logo */
+}
+
+.app-name {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: #ffffff;
+}
+
+.logo {
+  width: 40px;
+  height: auto;
+  margin-right: 10px;
+}
+
+/* El truco de magia: este elemento crece y ocupa todo el espacio libre del centro */
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.right-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* --- TOOLBAR PREMIUM --- */
+.dashboard-toolbar-premium {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px !important;
+  padding: 0 24px !important;
+  z-index: 100;
+  
+  /* Efecto Glassmorphism (Vidrio Esmerilado) */
+  background: rgba(13, 15, 20, 0.7) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
+  /* Borde inferior sutil de separación */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* Sección de la Marca (Izquierda) */
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Estilo del botón de menú */
+.menu-toggle-btn {
+  color: #94a3b8 !important;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.menu-toggle-btn:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Contenedor del Logo y Texto */
+.brand-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  width: 34px;
+  height: auto;
+  object-fit: contain;
+  /* Sutil reflejo de iluminación para el logo */
+  filter: drop-shadow(0 2px 8px rgba(59, 130, 246, 0.3));
+}
+
+/* Tipografía de marca elegante */
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.brand-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.brand-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #3b82f6; /* Azul insignia */
+}
+
+/* Espaciador central */
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+/* Acciones (Derecha) */
+.right-actions-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Botones de acción minimalistas */
+.action-btn {
+  color: #94a3b8 !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.action-btn:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  transform: translateY(-1px);
+}
+
+/* Cambio dinámico de icono de tema */
+.theme-toggle:hover {
+  color: #fbbf24 !important; /* Brillo dorado para el sol/luna */
+}

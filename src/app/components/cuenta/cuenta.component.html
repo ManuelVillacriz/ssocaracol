@@ -1,0 +1,62 @@
+<div class="card text-bg-light mb-3">
+  <div class="card-header">{{titulo}}</div>
+  <div class="card-body">
+    <button class="btn btn-primary my-2" routerLink="/cuenta/form">Crear</button>
+    
+    <!-- 🔍 BUSCADOR -->
+    <div class="row my-2">
+      <div class="col-md-3">
+        <input 
+          type="text"
+          class="form-control"
+          placeholder="Buscar cuenta..."
+          [(ngModel)]="filtro"
+          (input)="buscar()">
+      </div>
+    </div>
+
+    <div class="alert alert-info" *ngIf="lista?.length==0">
+      No hay clientes en el sistema
+    </div>
+
+    <table class="table table-hover table-striped" *ngIf="lista?.length>0">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Numero Cuenta</th>   
+          <th>Tipo Cuenta</th>
+          <th>Saldo Inicial</th>
+          <th>Saldo Actual</th>
+          <th>Cliente</th>          
+          <th>Fecha Creacion</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cuenta of lista">
+          <th></th>
+          <td>{{cuenta.numeroCuenta}}</td>          
+          <td>{{cuenta.tipoCuenta.nombre}}</td>
+          <td>{{cuenta.saldoInicial | currency:'COP ':'symbol':'1.0-0'}}</td>
+          <td>{{ cuenta.saldo | currency:'COP ':'symbol':'1.0-0' }}</td>
+          <td> {{ cuenta.cliente?.nombre }} {{ cuenta.cliente?.apellido }}</td>          
+          <td>{{ cuenta.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>
+            <button class="btn btn-secondary brn-small" [routerLink]="['/cuenta/form',cuenta.id]">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+          <td><button class="btn btn-danger brn-small" (click)="eliminar(cuenta)">
+            <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator [length]="totalRegistros" [pageSize]="totalPorPagina" [pageIndex]="paginaActual"
+      [pageSizeOptions]="pageSizeOptions" (page)="paginar($event)" showFirstLastButtons class="float-end mx-2"
+      aria-label="Select page">
+    </mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,332 @@
+/* Contenedor adaptativo centrado */
+.welcome-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+  background-color: #030712; /* Fondo de pantalla oscuro general */
+}
+
+/* Tarjeta Premium Minimalista */
+.welcome-card-premium {
+  background: linear-gradient(145deg, #0e1118 0%, #07090d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 4rem 3rem;
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s ease;
+}
+
+/* Efectos visuales específicos de marca (Aura Glow) */
+.welcome-card-premium.brand-ditu {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 
+              0 0 40px rgba(0, 242, 254, 0.05); /* Glow color Ditu (Cian) */
+  border-color: rgba(0, 242, 254, 0.1);
+}
+
+.welcome-card-premium.brand-caracol {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 
+              0 0 40px rgba(30, 64, 175, 0.08); /* Glow color Caracol (Azul) */
+  border-color: rgba(96, 165, 250, 0.1);
+}
+
+/* Contenedor de Logos */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  margin-bottom: 2.5rem;
+}
+
+.brand-logo {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Ajustes particulares de tamaño para cada logo */
+.ditu-logo {
+  max-width: 200px;
+}
+
+.caracol-logo {
+  max-width: 110px;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.08));
+}
+
+/* Textos */
+.welcome-tag {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+/* Colores dinámicos para los tags según la marca */
+.brand-ditu .welcome-tag { color: #00f2fe; }
+.brand-caracol .welcome-tag { color: #60a5fa; }
+
+.welcome-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  color: #ffffff;
+  margin: 0 0 0.5rem 0;
+}
+
+.welcome-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  color: #64748b;
+  margin: 0 0 2rem 0;
+}
+
+/* Estilos de Formulario e Inputs */
+.login-form {
+  text-align: left;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  background-color: #0b0f17;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: #ffffff;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+/* Focus de los inputs según la marca activa */
+.brand-ditu .input-group input:focus {
+  outline: none;
+  border-color: #00f2fe;
+  box-shadow: 0 0 8px rgba(0, 242, 254, 0.15);
+}
+
+.brand-caracol .input-group input:focus {
+  outline: none;
+  border-color: #60a5fa;
+  box-shadow: 0 0 8px rgba(96, 165, 250, 0.15);
+}
+
+/* Alerta de Error */
+.error-alert {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  color: #f87171;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Botón de Enviar Premium */
+.submit-button {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #030712;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+/* Botón interactivo por marca */
+.brand-ditu .submit-button {
+  background: linear-gradient(90deg, #00f2fe, #4facfe);
+}
+.brand-ditu .submit-button:hover:not(:disabled) {
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+  transform: translateY(-1px);
+}
+
+.brand-caracol .submit-button {
+  background: linear-gradient(90deg, #60a5fa, #3b82f6);
+}
+.brand-caracol .submit-button:hover:not(:disabled) {
+  box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+  transform: translateY(-1px);
+}
+
+.submit-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Loader Spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(3, 7, 18, 0.3);
+  border-radius: 50%;
+  border-top-color: #030712;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Línea divisoria elegante */
+.divider-line {
+  width: 60px;
+  height: 2px;
+  margin: 2.5rem auto 1.5rem auto;
+}
+
+.brand-ditu .divider-line {
+  background: linear-gradient(90deg, transparent, #00f2fe, transparent);
+}
+
+.brand-caracol .divider-line {
+  background: linear-gradient(90deg, transparent, #60a5fa, transparent);
+}
+
+/* Sello del Grupo Empresarial */
+.valorem-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #475569;
+}
+
+.social-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.social-divider::before,
+.social-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.social-divider:not(:empty)::before {
+  margin-right: .5em;
+}
+
+.social-divider:not(:empty)::after {
+  margin-left: .5em;
+}
+
+.google-login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 45px;
+  background-color: #ffffff;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  color: #3c4043;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.google-login-button:hover {
+  background-color: #f8f9fa;
+  box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+}
+
+.google-login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.google-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Asegura la alineación premium del botón */
+.google-login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px; /* Espacio ideal entre el logo y el texto */
+  width: 100%;
+  height: 48px; /* Altura premium estándar */
+  background-color: #ffffff;
+  border: 1px solid #dadce0;
+  border-radius: 8px; /* Bordes redondeados modernos */
+  color: #3c4043;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif; /* Tipografía oficial de Google */
+  font-size: 15px; /* Tamaño de fuente equilibrado */
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  padding: 0 16px;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+}
+
+.google-login-button:hover {
+  background-color: #f8f9fa;
+  border-color: #d2e3fc; /* Un toque de color de Google al hacer hover */
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+}
+
+.google-login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* NUEVO: Clases para el icono SVG */
+.google-icon-svg {
+  width: 20px; /* Tamaño oficial del logo 'G' dentro del botón */
+  height: 20px;
+  flex-shrink: 0; /* Evita que el logo se deforme si el texto es muy largo */
+}

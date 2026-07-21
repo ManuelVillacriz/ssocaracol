@@ -1,0 +1,91 @@
+/* Contenedor adaptativo que respeta tu barra lateral y topbar */
+.welcome-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Tarjeta Premium Minimalista (Mantenemos fondo oscuro para contraste sutil) */
+.welcome-card-premium {
+  background: linear-gradient(145deg, #0e1118 0%, #07090d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 4.5rem 3.5rem;
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 
+              0 0 40px rgba(30, 64, 175, 0.1); /* Sutil aura azul de Caracol */
+}
+
+/* Contenedor del logo */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+/* Estilo del logo oficial caracol (círculo azul) */
+.caracol-official-logo {
+  max-width: 160px; /* Tamaño ajustado para el formato circular */
+  height: auto;
+  display: block;
+  /* El círculo azul oscuro es sutil sobre el fondo oscuro, el ojo blanco destaca */
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1)); /* Ligero glow al ojo blanco */
+}
+
+/* Textos */
+.welcome-tag {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #60a5fa; /* Azul claro vibrante para legibilidad */
+  margin-bottom: 0.75rem;
+}
+
+/* Nombre de usuario con tipografía de gran peso visual */
+.welcome-user-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 3.2rem;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  text-transform: capitalize; 
+  background: linear-gradient(180deg, #ffffff 40%, #bfdbfe 100%); /* Degradado a azul claro */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0 0 0.5rem 0;
+}
+
+.welcome-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 300;
+  color: #94a3b8; /* Gris azulado claro */
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+/* Línea divisoria elegante */
+.divider-line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #60a5fa, transparent); /* Línea azul claro */
+  margin: 2.5rem auto 1.5rem auto;
+}
+
+/* Sello del Grupo Empresarial */
+.valorem-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #64748b; /* Gris azulado */
+}

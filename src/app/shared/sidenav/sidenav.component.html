@@ -1,0 +1,73 @@
+<div class="dashboard-container"
+     [class.dark-theme]="isDark"
+     [class.is-mobile]="mobileQuery.matches">
+
+    <mat-toolbar class="dashboard-toolbar-premium">
+    
+    <div class="brand-wrapper">
+        <button mat-icon-button class="menu-toggle-btn" (click)="$event.stopPropagation(); snav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <div class="brand-logo-container">
+            <img src="assets/images/caracol.png" class="brand-logo" alt="Caracol TV Logo">            
+            <div class="brand-text">
+                <span class="brand-title">Caracol</span>
+                <span class="brand-subtitle">Televisión</span>
+            </div>
+        </div>
+    </div>
+    
+    <span class="toolbar-spacer"></span>
+    
+    <div class="right-actions-wrapper">
+        <button mat-icon-button class="action-btn" title="Ayuda">
+            <mat-icon>help_outline</mat-icon>
+        </button>
+        <button mat-icon-button class="action-btn theme-toggle" (click)="toggleTheme()" title="Cambiar Tema">
+            <mat-icon>{{ isDark ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        </button>    
+    </div>
+
+</mat-toolbar>
+
+    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+        
+        <mat-sidenav #snav 
+            [mode]="mobileQuery.matches ? 'over' : 'side'" 
+            [fixedInViewport]="mobileQuery.matches"
+            fixedTopGap="56"
+            [opened]="!mobileQuery.matches"
+            class="custom-sidenav">
+
+            <div class="sidenav-content-flex">
+                <div class="profile-section">
+                    <div class="profile-avatar">
+                        <span>{{ username ? username.charAt(0).toUpperCase() : 'M' }}</span>
+                    </div>
+                    <span class="profile-role">Sesión activa</span>
+                    <h3 class="profile-name">{{ username }}</h3>
+                    
+                    <button class="btn-logout-sidebar" (click)="logout()">
+                        <mat-icon>power_settings_new</mat-icon>
+                        Cerrar Sesión
+                    </button>
+                </div>
+
+                <mat-divider class="profile-divider"></mat-divider>
+
+                <mat-nav-list class="menu-list">
+                    <a mat-list-item [routerLink]="nav.route" *ngFor="let nav of menuNav" class="nav-item-custom" routerLinkActive="active-link">
+                        <mat-icon class="icono" matListItemIcon> {{ nav.icon }}</mat-icon>
+                        <span class="name" matListItemTitle>{{nav.name}}</span>
+                    </a>
+                </mat-nav-list>
+            </div>
+
+        </mat-sidenav>
+
+        <mat-sidenav-content class="main-content-area">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+
+    </mat-sidenav-container>
+</div>

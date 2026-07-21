@@ -1,0 +1,61 @@
+<div class="card text-bg-light mb-3">
+  <div class="card-header">{{titulo}}</div>
+  <div class="card-body">
+    <button class="btn btn-primary my-2" routerLink="/movimiento/form">Crear</button>
+    
+    <!-- 🔍 BUSCADOR -->
+    <div class="row my-2">
+      <div class="col-md-3">
+        <input 
+          type="text"
+          class="form-control"
+          placeholder="Buscar Movimiento..."
+          [(ngModel)]="filtro"
+          (input)="buscar()">
+      </div>
+    </div>
+
+    <div class="alert alert-info" *ngIf="lista?.length==0">
+      No hay clientes en el sistema
+    </div>
+
+
+    <table class="table table-hover table-striped" *ngIf="lista?.length>0">
+      <thead>
+        <tr>
+          <th></th>          
+          <th>Tipo Movimiento</th>
+          <th>Valor</th>
+          <th>Saldo Actual</th>
+          <th>Fecha Movimiento</th>
+          <th>Cuenta</th>          
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let movimiento of lista">
+          <th></th>          
+          <td>{{movimiento.tipoMovimiento.nombre}}</td>
+          <td>{{movimiento.valor | currency:'COP ':'symbol':'1.0-0'}}</td>
+          <td>{{movimiento.saldo | currency:'COP ':'symbol':'1.0-0'}}</td>
+          <td>{{movimiento.fechaMovimiento | date:'dd/MM/yyyy HH:mm' }}</td>          
+          <td>{{movimiento.cuenta.numeroCuenta}}</td>          
+          <td>
+            <button class="btn btn-secondary brn-small" [routerLink]="['/movimiento/form',movimiento.id]">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+          <td><button class="btn btn-danger brn-small" (click)="eliminar(movimiento)">
+            <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator [length]="totalRegistros" [pageSize]="totalPorPagina" [pageIndex]="paginaActual"
+      [pageSizeOptions]="pageSizeOptions" (page)="paginar($event)" showFirstLastButtons class="float-end mx-2"
+      aria-label="Select page">
+    </mat-paginator>
+  </div>
+</div>
