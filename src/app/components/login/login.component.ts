@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { KeycloakService } from 'keycloak-angular';
 import { environment } from '../../environments/environments';
+import { SessionService } from '../../services/session.service';
+import { UserSession } from '../../models/user-session';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +19,7 @@ export class LoginComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private keycloakService = inject(KeycloakService);
   private platformId = inject(PLATFORM_ID);
+  private sessionService = inject(SessionService);
 
   // Credenciales y estados
   username = '';
@@ -29,8 +32,6 @@ export class LoginComponent implements OnInit {
   private clientId = 'ditu'; 
 
   ngOnInit(): void {
-
-    
 
   if (isPlatformBrowser(this.platformId)) {
     this.detectBrand();
@@ -49,7 +50,6 @@ export class LoginComponent implements OnInit {
     }
   }
 }
-
   checkAlternativeSSO() {
   if (!isPlatformBrowser(this.platformId)) return;
 
@@ -57,10 +57,19 @@ export class LoginComponent implements OnInit {
   const ssoToken = urlParams.get('sso_token');
   const ssoRefresh = urlParams.get('sso_refresh');
   const ssoId = urlParams.get('sso_id');
+  const ssoSessions = urlParams.get('sso_sessions'); // ➔ CAPTURAMOS LA LISTA MULTICUENTA VECINA
   const requestSSO = urlParams.get('request_sso');
   const returnTo = urlParams.get('return_to');
   const ssoFailed = urlParams.get('sso_failed');
   const logoutSso = urlParams.get('logout_sso'); // Capturamos la orden de cierre de sesión
+  const addAccount = urlParams.get('add_account');
+  
+  // CASO ESPECIAL: El usuario quiere agregar una nueva cuenta.
+  // Nos quedamos en el login local de Angular y NO disparamos rebotes al vecino.
+  if (addAccount === 'true') {
+    // Detenemos cualquier redirección automática para mostrar la pantalla de login limpia
+    return; 
+  }
 
   // CASO LOGOUT: El vecino me ordenó cerrar sesión.
   if (logoutSso === 'true') {
@@ -68,6 +77,7 @@ export class LoginComponent implements OnInit {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('id_token');
+    localStorage.removeItem('active_session_id');
     try {
       this.keycloakService.clearToken();
     } catch (e) {}
@@ -86,9 +96,32 @@ export class LoginComponent implements OnInit {
 
   // CASO A: Vengo rebotado de mi vecino con tokens válidos.
   if (ssoToken) {
-    localStorage.setItem('access_token', ssoToken);
-    localStorage.setItem('refresh_token', ssoRefresh || '');
-    localStorage.setItem('id_token', ssoId || '');
+    // ➔ SINCRONIZACIÓN MULTICUENTA: Si el vecino nos envía la lista completa, la hidratamos primero
+    if (ssoSessions) {
+      try {
+        const sesionesDecodificadas = JSON.parse(decodeURIComponent(ssoSessions));
+        if (Array.isArray(sesionesDecodificadas) && sesionesDecodificadas.length > 0) {
+          localStorage.setItem('app_multi_sessions', JSON.stringify(sesionesDecodificadas));
+        }
+      } catch (e) {
+        console.warn('Error al sincronizar lista multicuenta desde el vecino:', e);
+      }
+    }
+
+    let ssoUser = 'Usuario SSO';
+    try {
+      const payload = JSON.parse(atob(ssoToken.split('.')[1]));
+      ssoUser = payload.preferred_username || payload.email || payload.given_name || 'Usuario SSO';
+    } catch (e) {}
+
+    // ➔ GUARDADO MULTICUENTA: Agregamos o activamos la cuenta enviada por el vecino
+    this.guardarNuevaSesion(
+      ssoUser,
+      ssoToken,
+      ssoRefresh || '',
+      ssoId || '',
+      'credentials'
+    );
     
     window.location.href = `${window.location.origin}/home`;
     return;
@@ -101,7 +134,15 @@ export class LoginComponent implements OnInit {
     if (miToken) {
       const miRefresh = localStorage.getItem('refresh_token') || '';
       const miId = localStorage.getItem('id_token') || '';
-      window.location.href = `${decodeURIComponent(returnTo)}/login?sso_token=${miToken}&sso_refresh=${miRefresh}&sso_id=${miId}`;
+      
+      // ➔ Le adjuntamos al vecino nuestro arreglo completo de cuentas locales
+      const misSesiones = localStorage.getItem('app_multi_sessions') || '[]';
+
+      window.location.href = `${decodeURIComponent(returnTo)}/login` +
+        `?sso_token=${miToken}` +
+        `&sso_refresh=${miRefresh}` +
+        `&sso_id=${miId}` +
+        `&sso_sessions=${encodeURIComponent(misSesiones)}`;
     } else {
       window.location.href = `${decodeURIComponent(returnTo)}/login?sso_failed=true`;
     }
@@ -121,60 +162,8 @@ export class LoginComponent implements OnInit {
     const urlVecina = environment.appVecinaUrl;
     
     window.location.href = `${urlVecina}/login?request_sso=true&return_to=${encodeURIComponent(miOrigen)}`;
-    
   }
 }
-
-  checkSilentSSO() {
-    // 1. Si ya tenemos token local en este puerto, vamos directo al Home, no molestamos al vecino
-    if (localStorage.getItem('access_token')) {
-      this.router.navigate(['/home']);
-      return;
-    }
-
-    // 2. Si no lo tenemos, creamos el iframe oculto apuntando a la APP VECINA configurada
-    const targetOrigin = environment.appVecinaUrl; 
-    const iframe = document.createElement('iframe');
-    iframe.src = targetOrigin;
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-
-    // 3. Al cargar el iframe, le preguntamos si tiene sesión activa
-    iframe.onload = () => {
-      iframe.contentWindow?.postMessage('REQUEST_TOKEN', targetOrigin);
-    };
-
-    // 4. Escuchamos la respuesta del iframe
-    const messageListener = async (event: MessageEvent) => {
-      if (event.origin === targetOrigin && event.data?.type === 'SEND_TOKEN') {
-        // ¡La otra app tiene sesión activa! Guardamos los tokens en nuestro puerto
-        localStorage.setItem('access_token', event.data.access_token);
-        localStorage.setItem('refresh_token', event.data.refresh_token);
-        localStorage.setItem('id_token', event.data.id_token);
-
-        // Limpieza de listeners e iframe
-        window.removeEventListener('message', messageListener);
-        if (document.body.contains(iframe)) {
-          document.body.removeChild(iframe);
-        }
-
-        // Redirigimos al Home inmediatamente de forma transparente
-        this.router.navigate(['/home']);
-      }
-    };
-
-    window.addEventListener('message', messageListener);
-
-    // Timeout de seguridad: Si en 1.5 segundos la app vecina no responde (porque tampoco tiene sesión),
-    // cancelamos la escucha y dejamos que el usuario vea tu login premium normal.
-    setTimeout(() => {
-      window.removeEventListener('message', messageListener);
-      if (document.body.contains(iframe)) {
-        document.body.removeChild(iframe);
-      }
-    }, 1500);
-  }
-
 
   private detectBrand(): void {
     const hostname = window.location.hostname;
@@ -217,10 +206,15 @@ export class LoginComponent implements OnInit {
     this.http.post<any>(this.keycloakTokenUrl, body.toString(), { headers }).subscribe({
       next: async (response) => {
         if (isPlatformBrowser(this.platformId)) {
-          // Guardar los tokens
-          localStorage.setItem('access_token', response.access_token);
-          localStorage.setItem('refresh_token', response.refresh_token);
-          localStorage.setItem('id_token', response.id_token);
+          
+          // ➔ GUARDADO MULTICUENTA: Registramos la nueva sesión sin borrar las anteriores
+          this.guardarNuevaSesion(
+            this.username, // Usa el username ingresado en el formulario
+            response.access_token,
+            response.refresh_token,
+            response.id_token,
+            'credentials'
+          );
           
           try {
             // Inicializar Keycloak de forma interna con las nuevas credenciales
@@ -308,10 +302,22 @@ private checkOAuthCallback(): void {
 
     this.http.post<any>(this.keycloakTokenUrl, body.toString(), { headers }).subscribe({
       next: async (response) => {
-        // Guardamos los tokens en LocalStorage igual que en tu login manual
-        localStorage.setItem('access_token', response.access_token);
-        localStorage.setItem('refresh_token', response.refresh_token);
-        localStorage.setItem('id_token', response.id_token);
+        
+        // ➔ Extraemos el username/email del JWT de Google para identificarlo en la lista
+        let socialUsername = 'Usuario Google';
+        try {
+          const payload = JSON.parse(atob(response.access_token.split('.')[1]));
+          socialUsername = payload.email || payload.preferred_username || payload.given_name || 'Usuario Google';
+        } catch (e) {}
+
+        // ➔ GUARDADO MULTICUENTA: Registramos la nueva sesión social
+        this.guardarNuevaSesion(
+          socialUsername,
+          response.access_token,
+          response.refresh_token,
+          response.id_token,
+          'social'
+        );
 
         try {
           // Inicializamos Keycloak internamente con los nuevos tokens
@@ -344,4 +350,20 @@ private checkOAuthCallback(): void {
     });
   }
 }
+
+// De aqui en adelante la implementacion de autenticacion multicuenta
+
+guardarNuevaSesion(username: string, accessToken: string, refreshToken: string, idToken: string, loginType: 'credentials' | 'social'): void {
+  console.log('guardarNuevaSesion')
+  const nuevaSesion: UserSession = {
+    id: username, // O el sub/UUID extraído del token
+    username: username,
+    accessToken: accessToken,
+    refreshToken: refreshToken || '',
+    idToken: idToken || '',
+    loginType: loginType
+  };
+  this.sessionService.saveSession(nuevaSesion);
+}
+
 }

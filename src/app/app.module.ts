@@ -36,6 +36,7 @@ import { PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { SsoBridgeComponent } from './components/sso-bridge/sso-bridge.component';
 
 // 1. Modifica la función para recibir el PLATFORM_ID
 export function initializeKeycloak(keycloak: KeycloakService, platformId: object) {
@@ -75,7 +76,8 @@ export function initializeKeycloak(keycloak: KeycloakService, platformId: object
     MovimientoFormComponent,
     ReporteComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    SsoBridgeComponent   
   ],
   imports: [
     BrowserModule,
@@ -102,7 +104,7 @@ export function initializeKeycloak(keycloak: KeycloakService, platformId: object
     MatSelectModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    KeycloakAngularModule
+    KeycloakAngularModule    
   ],
   providers: [
     provideClientHydration(),

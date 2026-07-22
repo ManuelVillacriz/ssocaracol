@@ -9,14 +9,16 @@ import { MovimientoFormComponent } from './components/movimiento/movimiento-form
 import { ReporteComponent } from './components/movimiento/reporte.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { SsoBridgeComponent } from './components/sso-bridge/sso-bridge.component';
 
 
 const routes: Routes = [
   
+  { path: 'sso-bridge', component: SsoBridgeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', redirectTo: '/login' },
+  //{ path: '', redirectTo: '/login', pathMatch: 'full' },
+  //{ path: '**', redirectTo: '/login' },
 
   {path:'cliente', component: ClienteComponent},
   {path:'cliente/form', component: ClienteFormComponent},
