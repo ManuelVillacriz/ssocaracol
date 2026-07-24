@@ -81,30 +81,7 @@ async ngOnInit(): Promise<void> {
     } catch (error) {
       console.error('Error cargando el usuario en sidenav:', error);
       this.username = 'Usuario';
-    }
-    // const token = localStorage.getItem('access_token');
-    
-    // if (!token) {
-    //   this.username = 'Invitado';
-    //   return;
-    // }
-
-    // try {
-    //   // Intentamos obtener el perfil desde Keycloak Service si ya está sincronizado
-    //   const isLoggedIn = await this.keycloakService.isLoggedIn();
-    //   if (isLoggedIn) {
-    //     const userProfile = await this.keycloakService.loadUserProfile();
-    //     this.username = userProfile.firstName || this.keycloakService.getUsername() || 'Usuario';
-    //   } else {
-    //     // Alternativa de rescate: Decodificamos el JWT guardado en localStorage para pintar el nombre de inmediato
-    //     const payload = JSON.parse(atob(token.split('.')[1]));
-    //     // Keycloak guarda habitualmente el nombre en 'given_name', 'name' o 'preferred_username'
-    //     this.username = payload.given_name || payload.name || payload.preferred_username || 'Usuario';
-    //   }
-    // } catch (error) {
-    //   console.error('Error cargando el usuario en sidenav:', error);
-    //   this.username = 'Usuario';
-    // }
+    }    
   }
 
   toggleTheme() {
@@ -179,34 +156,21 @@ async logout(): Promise<void> {
 cargarSesiones(): void {
     this.cuentasDisponibles = this.sessionService.getSessions();
     this.sesionActiva = this.sessionService.getActiveSession();
-    
-    // if (this.sesionActiva) {
-    //   this.username = this.sesionActiva.username;
-    // }
   }
 
   // Despliega o esconde la lista de cuentas
   toggleMenuCuentas(): void {
     this.mostrarListaCuentas = !this.mostrarListaCuentas;
   }
-
-  // Método estrella: Conmuta de usuario al hacer clic en otra cuenta
   
-  // En sidenav.component.ts (4200 y 4300)
-
- // En sidenav.component.ts (En 4200 y en 4300)
 
 cambiarDeCuenta(cuentaSeleccionada: UserSession): void {
   if (isPlatformBrowser(this.platformId)) {
     // 1. Si hace clic en la misma cuenta que ya está activa, no hacemos nada
     if (this.sesionActiva?.id === cuentaSeleccionada.id) return;
-
-    // 2. Activamos la sesión seleccionada localmente en nuestro SessionService.
-    // Esto escribe 'access_token', 'refresh_token', 'id_token' y 'active_session_id'
+   
     this.sessionService.setActiveSession(cuentaSeleccionada);
 
-    // 3. Recargamos la aplicación EN EL MISMO PUERTO (permanece en 4200 o 4300)
-    // Angular re-inicializará los servicios y el Home con el nuevo usuario sin cambiar de URL.
     window.location.reload();
   }
 }
@@ -234,13 +198,7 @@ cambiarDeCuenta(cuentaSeleccionada: UserSession): void {
   // Normalizamos el ID
   const cuentaId = typeof cuentaAEliminar === 'string' ? cuentaAEliminar : cuentaAEliminar?.id;
   if (!cuentaId) return;
-
-  // 2. Si la cuenta a eliminar es la ACTIVA actualmente
-  // if (this.sesionActiva && cuentaId === this.sesionActiva.id) {
-  //   this.logout(); // Ejecuta la lógica de logout
-  //   return;
-  // }
-
+  
   // 3. Si es una cuenta INACTIVA:
   // Delegamos la eliminación al servicio para que actualice la lista y sincronice al vecino
   if (this.sessionService) {
@@ -257,18 +215,5 @@ cambiarDeCuenta(cuentaSeleccionada: UserSession): void {
 cerrarTodasLasSesiones(): void {
   this.sessionService.logoutAll();
 }
-
-// async logoutAll(): Promise<void> {
-//   if (!isPlatformBrowser(this.platformId)) return;
-
-//   // Limpiamos absolutamente todo el almacenamiento multicuenta
-//   localStorage.removeItem('app_multi_sessions');
-//   localStorage.removeItem('active_session_id');
-
-//   // Reutilizamos el flujo de logout principal para tumbar la sesión en Keycloak
-//   await this.logout();
-// }
-
-
 
 }

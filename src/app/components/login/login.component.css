@@ -1,332 +1,330 @@
-/* Contenedor adaptativo centrado */
-.welcome-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* ==========================================================================
+   ESTILOS GENERALES Y TEMATIZACIÓN CARACOL TELEVISIÓN / DITÚ
+   ========================================================================== */
+
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.app-login-container {
   min-height: 100vh;
   width: 100%;
-  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.3s ease;
+
+  /* Tema Caracol Televisión (Azul Noche Profundo) */
+  &.caracol {
+    background-color: #030712;
+    
+    .app-navbar {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .continuar-btn {
+      background-color: #3b82f6; 
+      &:hover:not(:disabled) { background-color: #2563eb; }
+    }
+  }
+
+  /* Tema Ditú (Negro Puro) */
+  &.ditu {
+    background-color: #0d0d0d;
+
+    .app-navbar {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .continuar-btn {
+      background-color: #8031ef;
+      &:hover:not(:disabled) { background-color: #6c22d4; }
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   1. NAVBAR SUPERIOR
+   -------------------------------------------------------------------------- */
+.app-navbar {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3rem;
   box-sizing: border-box;
-  background-color: #030712; /* Fondo de pantalla oscuro general */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+
+    .brand-logo {
+      height: 50px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+
+      &.caracol-logo {        
+        filter: brightness(0) invert(1);
+      }
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+
+      .nav-link {
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        opacity: 0.85;
+        transition: opacity 0.2s, color 0.2s;
+
+        &:hover, &.active {
+          opacity: 1;
+        }
+
+        &.live {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+        }
+
+        .red-dot {
+          width: 8px;
+          height: 8px;
+          background-color: #ff3b30;
+          border-radius: 50%;
+          display: inline-block;
+          box-shadow: 0 0 6px rgba(255, 59, 48, 0.8);
+        }
+      }
+
+      .more-dots {
+        color: #ffffff;
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        cursor: pointer;
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    .search-btn {
+      background: none;
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+
+      &:hover { opacity: 1; }
+    }
+
+    .ingresar-header-btn {
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 255, 0.7);
+      color: #ffffff;
+      padding: 0.4rem 1.2rem;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #ffffff;
+        color: #030712;
+        border-color: #ffffff;
+      }
+    }
+  }
 }
 
-/* Tarjeta Premium Minimalista */
-.welcome-card-premium {
-  background: linear-gradient(145deg, #0e1118 0%, #07090d 100%);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 24px;
-  padding: 4rem 3rem;
-  width: 100%;
-  max-width: 480px;
-  text-align: center;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  transition: all 0.4s ease;
-}
-
-/* Efectos visuales específicos de marca (Aura Glow) */
-.welcome-card-premium.brand-ditu {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 
-              0 0 40px rgba(0, 242, 254, 0.05); /* Glow color Ditu (Cian) */
-  border-color: rgba(0, 242, 254, 0.1);
-}
-
-.welcome-card-premium.brand-caracol {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 
-              0 0 40px rgba(30, 64, 175, 0.08); /* Glow color Caracol (Azul) */
-  border-color: rgba(96, 165, 250, 0.1);
-}
-
-/* Contenedor de Logos */
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 80px;
-  margin-bottom: 2.5rem;
-}
-
-.brand-logo {
-  height: 100%;
-  width: auto;
-  object-fit: contain;
-  display: block;
-}
-
-/* Ajustes particulares de tamaño para cada logo */
-.ditu-logo {
-  max-width: 200px;
-}
-
-.caracol-logo {
-  max-width: 110px;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.08));
-}
-
-/* Textos */
-.welcome-tag {
-  display: block;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-/* Colores dinámicos para los tags según la marca */
-.brand-ditu .welcome-tag { color: #00f2fe; }
-.brand-caracol .welcome-tag { color: #60a5fa; }
-
-.welcome-title {
-  font-family: 'Inter', sans-serif;
-  font-size: 2.2rem;
-  font-weight: 800;
-  letter-spacing: -1px;
-  line-height: 1.2;
-  color: #ffffff;
-  margin: 0 0 0.5rem 0;
-}
-
-.welcome-subtitle {
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  font-weight: 300;
-  color: #64748b;
-  margin: 0 0 2rem 0;
-}
-
-/* Estilos de Formulario e Inputs */
-.login-form {
-  text-align: left;
-}
-
-.input-group {
-  margin-bottom: 1.5rem;
-}
-
-.input-group label {
-  display: block;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #94a3b8;
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.5px;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 0.85rem 1rem;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
-  background-color: #0b0f17;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  color: #ffffff;
-  box-sizing: border-box;
-  transition: all 0.3s ease;
-}
-
-/* Focus de los inputs según la marca activa */
-.brand-ditu .input-group input:focus {
-  outline: none;
-  border-color: #00f2fe;
-  box-shadow: 0 0 8px rgba(0, 242, 254, 0.15);
-}
-
-.brand-caracol .input-group input:focus {
-  outline: none;
-  border-color: #60a5fa;
-  box-shadow: 0 0 8px rgba(96, 165, 250, 0.15);
-}
-
-/* Alerta de Error */
-.error-alert {
-  background-color: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  border-radius: 12px;
-  padding: 0.75rem 1rem;
-  color: #f87171;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.85rem;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Botón de Enviar Premium */
-.submit-button {
-  width: 100%;
-  padding: 1rem;
-  border: none;
-  border-radius: 12px;
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #030712;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
-}
-
-/* Botón interactivo por marca */
-.brand-ditu .submit-button {
-  background: linear-gradient(90deg, #00f2fe, #4facfe);
-}
-.brand-ditu .submit-button:hover:not(:disabled) {
-  box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
-  transform: translateY(-1px);
-}
-
-.brand-caracol .submit-button {
-  background: linear-gradient(90deg, #60a5fa, #3b82f6);
-}
-.brand-caracol .submit-button:hover:not(:disabled) {
-  box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
-  transform: translateY(-1px);
-}
-
-.submit-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Loader Spinner */
-.spinner {
-  width: 20px;
-  height: 20px;
-  border: 3px solid rgba(3, 7, 18, 0.3);
-  border-radius: 50%;
-  border-top-color: #030712;
-  animation: spin 1s ease-in-out infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Línea divisoria elegante */
-.divider-line {
-  width: 60px;
-  height: 2px;
-  margin: 2.5rem auto 1.5rem auto;
-}
-
-.brand-ditu .divider-line {
-  background: linear-gradient(90deg, transparent, #00f2fe, transparent);
-}
-
-.brand-caracol .divider-line {
-  background: linear-gradient(90deg, transparent, #60a5fa, transparent);
-}
-
-/* Sello del Grupo Empresarial */
-.valorem-tag {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: #475569;
-}
-
-.social-divider {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 1.5rem 0;
-  color: #888;
-  font-size: 0.85rem;
-}
-
-.social-divider::before,
-.social-divider::after {
-  content: '';
+/* --------------------------------------------------------------------------
+   2. CUERPO Y TARJETA FORMULARIO DE LOGIN
+   -------------------------------------------------------------------------- */
+.login-body {
   flex: 1;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.social-divider:not(:empty)::before {
-  margin-right: .5em;
-}
-
-.social-divider:not(:empty)::after {
-  margin-left: .5em;
-}
-
-.google-login-button {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 10px;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+.login-card {
   width: 100%;
-  height: 45px;
-  background-color: #ffffff;
-  border: 1px solid #dadce0;
-  border-radius: 8px;
-  color: #3c4043;
-  font-family: 'Roboto', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s, box-shadow 0.2s;
-}
-
-.google-login-button:hover {
-  background-color: #f8f9fa;
-  box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
-}
-
-.google-login-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.google-icon {
-  width: 18px;
-  height: 18px;
-}
-
-/* Asegura la alineación premium del botón */
-.google-login-button {
+  max-width: 380px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 12px; /* Espacio ideal entre el logo y el texto */
+  text-align: center;
+
+  .login-title {
+    color: #ffffff;
+    font-size: 1.75rem;
+    font-weight: 900;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+    font-family: 'Arial Black', system-ui, sans-serif;
+  }
+
+  .login-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    margin-bottom: 1.75rem;
+  }
+}
+
+.error-banner {
   width: 100%;
-  height: 48px; /* Altura premium estándar */
-  background-color: #ffffff;
-  border: 1px solid #dadce0;
-  border-radius: 8px; /* Bordes redondeados modernos */
-  color: #3c4043;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif; /* Tipografía oficial de Google */
-  font-size: 15px; /* Tamaño de fuente equilibrado */
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s, box-shadow 0.2s;
-  padding: 0 16px;
-  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+  background-color: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  padding: 0.65rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  margin-bottom: 1.25rem;
+  box-sizing: border-box;
 }
 
-.google-login-button:hover {
-  background-color: #f8f9fa;
-  border-color: #d2e3fc; /* Un toque de color de Google al hacer hover */
-  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+/* Formulario */
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .input-group {
+    position: relative;
+    width: 100%;
+
+    .caracol-input {
+      width: 100%;
+      height: 48px;
+      background-color: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 0 2.8rem 0 1rem;
+      color: #ffffff;
+      font-size: 0.95rem;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s, background-color 0.2s;
+
+      &:focus {
+        border-color: rgba(255, 255, 255, 0.5);
+        background-color: rgba(255, 255, 255, 0.09);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    .input-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1.1rem;
+    }
+  }
+
+  .continuar-btn {
+    width: 100%;
+    height: 48px;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 0.25rem;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
 }
 
-.google-login-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  box-shadow: none;
+.form-divider {
+  width: 35%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin: 1.75rem 0 1.25rem 0;
 }
 
-/* NUEVO: Clases para el icono SVG */
-.google-icon-svg {
-  width: 20px; /* Tamaño oficial del logo 'G' dentro del botón */
-  height: 20px;
-  flex-shrink: 0; /* Evita que el logo se deforme si el texto es muy largo */
+/* --------------------------------------------------------------------------
+   3. BOTONES SOCIALES GORDIOS/BOLD
+   -------------------------------------------------------------------------- */
+.social-login-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+
+  .social-text {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.85rem;
+    margin: 0;
+  }
+
+  .social-buttons-row {
+    display: flex;
+    gap: 1.25rem;
+
+    .social-icon-button {
+      width: 48px;
+      height: 48px;
+      background: transparent;
+      border: 2px solid #ffffff;
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+
+      .icon-text {
+        color: #ffffff;
+        font-size: 1.45rem;
+        font-weight: 900;
+        font-family: 'Arial Black', system-ui, sans-serif;
+        line-height: 1;
+        letter-spacing: -0.03em;
+      }
+
+      &:hover:not(:disabled) {
+        background-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+      }
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+    }
+  }
 }

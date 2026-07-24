@@ -1,119 +1,137 @@
-<div class="dashboard-container"
-     [class.dark-theme]="isDark"
-     [class.is-mobile]="mobileQuery.matches">
+<div class="dashboard-container">
 
-    <mat-toolbar class="dashboard-toolbar-premium">
+  <!-- ===================================================================
+       1. NAVBAR SUPERIOR ESTILO CARACOL TELEVISIÓN
+       =================================================================== -->
+  <mat-toolbar class="dashboard-toolbar-premium">
     
-        <div class="brand-wrapper">
-            <button mat-icon-button class="menu-toggle-btn" (click)="$event.stopPropagation(); snav.toggle()">
-                <mat-icon>menu</mat-icon>
-            </button>
-            <div class="brand-logo-container">
-                <img src="assets/images/caracol.png" class="brand-logo" alt="Caracol TV Logo">            
-                <div class="brand-text">
-                    <span class="brand-title">Caracol</span>
-                    <span class="brand-subtitle">Televisión</span>
-                </div>
+    <!-- LADO IZQUIERDO: LOGO CARACOL + ENLACES DE NAVEGACIÓN -->
+    <div class="brand-wrapper">
+      <div class="brand-logo-container">
+        <img src="assets/images/caracol.webp" class="brand-logo" alt="Caracol TV Logo">
+      </div>
+
+      <!-- Enlaces Caracol Televisión -->
+      <nav class="toolbar-nav-links" *ngIf="!mobileQuery.matches">
+        <a class="t-link active">Inicio</a>
+        <a class="t-link">Programas</a>
+        <a class="t-link">Actualidad</a>
+        <a class="t-link">Desafío</a>
+        <a class="t-link live"><span class="red-dot"></span>En vivo</a>
+        <a class="t-link">Novelas</a>
+        <a class="t-link">Humor</a>
+        <span class="more-dots">•••</span>
+      </nav>
+    </div>
+    
+    <span class="toolbar-spacer"></span>
+    
+    <!-- LADO DERECHO: BUSCADOR Y AVATAR ACTIVO (ESTILO GOOGLE) -->
+    <div class="right-actions-wrapper">
+      
+      <!-- Lupa de Búsqueda -->
+      <button type="button" class="search-icon-btn" title="Buscar" aria-label="Buscar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+
+      <!-- AVATAR CIRCULAR DEL USUARIO ACTIVO (DISPARA EL POP-OVER) -->
+      <div class="user-avatar-trigger" (click)="toggleMenuCuentas()" title="Gestión de Cuentas">
+        <div class="profile-avatar-circle">
+          <span>{{ username ? username.charAt(0).toUpperCase() : 'M' }}</span>
+        </div>
+      </div>
+
+      <!-- ===============================================================
+           CARD POP-OVER MULTICUENTA ESTILO GOOGLE (CONSERVA TU LÓGICA TS)
+           =============================================================== -->
+      <div class="google-style-accounts-card" *ngIf="mostrarListaCuentas">
+        
+        <!-- HEADER POP-OVER: EMAIL Y BOTÓN CERRAR -->
+        <div class="card-top-header">
+          <span class="user-active-email">{{ sesionActiva?.username || username }}</span>
+          <button type="button" class="btn-close-card" (click)="toggleMenuCuentas()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <!-- PERFIL PRINCIPAL -->
+        <div class="card-main-profile">
+          <div class="profile-avatar-large">
+            <span>{{ username ? username.charAt(0).toUpperCase() : 'M' }}</span>
+            <div class="camera-icon-badge">
+              <mat-icon>photo_camera</mat-icon>
             </div>
-        </div>
-        
-        <span class="toolbar-spacer"></span>
-        
-        <div class="right-actions-wrapper">
-            <button mat-icon-button class="action-btn" title="Ayuda">
-                <mat-icon>help_outline</mat-icon>
-            </button>
-            <button mat-icon-button class="action-btn theme-toggle" (click)="toggleTheme()" title="Cambiar Tema">
-                <mat-icon>{{ isDark ? 'light_mode' : 'dark_mode' }}</mat-icon>
-            </button>    
+          </div>
+          <h2 class="welcome-user-text">¡Hola, {{ username }}!</h2>
+          <span class="active-badge-tag">Sesión Activa</span>
         </div>
 
-    </mat-toolbar>
-
-    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-        
-        <mat-sidenav #snav 
-            [mode]="mobileQuery.matches ? 'over' : 'side'" 
-            [fixedInViewport]="mobileQuery.matches"
-            fixedTopGap="56"
-            [opened]="!mobileQuery.matches"
-            class="custom-sidenav">
-
-            <div class="sidenav-content-flex">
-                <div class="profile-section">
-                    <!-- Avatar y Usuario Activo -->
-                    <div class="profile-avatar">
-                        <span>{{ username ? username.charAt(0).toUpperCase() : 'M' }}</span>
-                    </div>
-                    <span class="profile-role">Sesión activa</span>
-                    <h3 class="profile-name">{{ username }}</h3>
-
-                    <!-- DESPLEGABLE: Lista de cuentas disponibles -->
-                    <!-- Lista de cuentas disponibles (Siempre visible) -->
-                    <div class="accounts-dropdown">
-                        <div 
-                            *ngFor="let cuenta of cuentasDisponibles" 
-                            class="account-item" 
-                            [class.active]="cuenta.id === sesionActiva?.id"
-                            (click)="cambiarDeCuenta(cuenta)">
-                            
-                            <div class="account-avatar-mini">
-                                {{ cuenta.username ? cuenta.username.charAt(0).toUpperCase() : 'U' }}
-                            </div>
-                            
-                            <div class="account-details">
-                                <span class="account-name">{{ cuenta.username }}</span>
-                                <span class="account-badge" *ngIf="cuenta.id === sesionActiva?.id">(Activa)</span>
-                            </div>
-
-                            <mat-icon *ngIf="cuenta.id === sesionActiva?.id" class="check-icon">check_circle</mat-icon>
-
-                            <!-- Botón 'X' para eliminar esta cuenta específica de la lista -->
-                            <button 
-                                type="button" 
-                                mat-icon-button 
-                                class="btn-remove-single-account" 
-                                title="Cerrar esta cuenta"
-                                (click)="cerrarSesionUsuario($event, cuenta.id)">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </div>
-                    </div>
-
-                    <button class="btn-logout-all-dropdown" type="button" (click)="cerrarTodasLasSesiones()">
-                            <mat-icon>power_settings_new</mat-icon>
-                            Cerrar todas las sesiones
-                    </button>
-
-                    <!-- Botón para abrir pestaña y agregar una nueva cuenta -->
-                    <button class="btn-add-account-sidebar" type="button" (click)="agregarOtraCuenta()">
-                        <mat-icon>person_add</mat-icon>
-                        Agregar otra cuenta
-                    </button>
-
-                    <!-- Botón Logout individual (Cierra la sesión activa actual) 
-                    <button class="btn-logout-sidebar" (click)="logout()">
-                        <mat-icon>exit_to_app</mat-icon>
-                        Cerrar Sesión Activa
-                    </button>-->
-                </div>
-
-                <mat-divider class="profile-divider"></mat-divider>
-
-                <!-- Menú de navegación existente -->
-                <mat-nav-list class="menu-list">
-                    <a mat-list-item [routerLink]="nav.route" *ngFor="let nav of menuNav" class="nav-item-custom" routerLinkActive="active-link">
-                        <mat-icon class="icono" matListItemIcon> {{ nav.icon }}</mat-icon>
-                        <span class="name" matListItemTitle>{{nav.name}}</span>
-                    </a>
-                </mat-nav-list>
+        <!-- LISTA DESPLEGABLE DE CUENTAS MULTICUENTA -->
+        <div class="google-accounts-list">
+          
+          <div *ngFor="let cuenta of cuentasDisponibles" 
+               class="account-row-item" 
+               [class.active-row]="cuenta.id === sesionActiva?.id"
+               (click)="cambiarDeCuenta(cuenta)">
+            
+            <div class="account-avatar-mini">
+              {{ cuenta.username ? cuenta.username.charAt(0).toUpperCase() : 'U' }}
+            </div>
+            
+            <div class="account-info-col">
+              <span class="acc-name">{{ cuenta.username }}</span>
+              <span class="acc-status" *ngIf="cuenta.id === sesionActiva?.id">En uso</span>
             </div>
 
-        </mat-sidenav>
+            <!-- Icono Check si es activa -->
+            <mat-icon *ngIf="cuenta.id === sesionActiva?.id" class="check-active-icon">check_circle</mat-icon>
 
-        <mat-sidenav-content class="main-content-area">
-            <router-outlet></router-outlet>
-        </mat-sidenav-content>
+            <!-- Botón X para desvincular una cuenta individual -->
+            <button type="button" 
+                    class="btn-remove-account" 
+                    title="Remover esta cuenta"
+                    (click)="cerrarSesionUsuario($event, cuenta.id)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
 
-    </mat-sidenav-container>
+        </div>
+
+        <!-- ACCIONES MULTICUENTA: AÑADIR CUENTA / CERRAR TODAS -->
+        <div class="card-actions-footer">
+          
+          <!-- Botón Añadir otra cuenta -->
+          <button type="button" class="google-action-btn" (click)="agregarOtraCuenta()">
+            <div class="action-icon-circle">
+              <mat-icon>add</mat-icon>
+            </div>
+            <span>Añadir otra cuenta</span>
+          </button>
+
+          <!-- Botón Cerrar todas las sesiones -->
+          <button type="button" class="google-action-btn logout-all" (click)="cerrarTodasLasSesiones()">
+            <div class="action-icon-circle">
+              <mat-icon>logout</mat-icon>
+            </div>
+            <span>Cerrar sesión en todas las cuentas</span>
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </mat-toolbar>
+
+  <!-- ===================================================================
+       2. CONTENIDO PRINCIPAL DE LA APLICACIÓN (SIN SIDENAV LATERAL)
+       =================================================================== -->
+  <main class="main-content-area">
+    <router-outlet></router-outlet>
+  </main>
+
 </div>

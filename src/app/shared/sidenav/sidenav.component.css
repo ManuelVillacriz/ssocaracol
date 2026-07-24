@@ -1,457 +1,455 @@
-/* Estructura del Dashboard */
+/* ==========================================================================
+   TEMA CORPORATIVO CARACOL TELEVISIÓN (#000413)
+   ========================================================================== */
+
+:host {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 .dashboard-container {
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.dashboard-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 10;
-}
-
-.app-name {
-  display: flex;
-  align-items: center;
-  font-size: 1.25rem;
-  margin: 0;
-}
-
-.right-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.sidenav-container {
-  flex: 1;
-}
-
-/* --- CONTROL DEL SIDENAV --- */
-.custom-sidenav {
-  width: 260px; /* Ancho fijo para evitar desbordamientos */
-  background-color: #0d0f14 !important; /* Fondo oscuro */
-  border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
-}
-
-/* Flexbox vertical dentro del sidenav para mantener el orden */
-.sidenav-content-flex {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding-top: 1.5rem;
-}
-
-/* Tarjeta de Perfil */
-.profile-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem;
-  margin: 0 1rem;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  box-sizing: border-box;
-}
-
-/* Avatar con la inicial */
-.profile-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.5rem;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
-}
-
-.profile-avatar span {
-  color: #ffffff;
-  font-size: 1.2rem;
-  font-weight: 700;
-}
-
-.profile-role {
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: #64748b;
-  margin-bottom: 4px;
-}
-
-.profile-name {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #f8fafc;
-  margin: 0 0 1rem 0;
-  text-transform: capitalize;
-}
-
-/* Botón elegante de Cerrar Sesión limitado */
-.btn-logout-sidebar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: rgba(239, 68, 68, 0.08);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.15);
-  border-radius: 12px;
-  padding: 8px 16px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  width: 100%; /* Ahora respeta el 100% de la .profile-section (no de la pantalla) */
-  box-sizing: border-box;
-  transition: all 0.25s ease;
-}
-
-.btn-logout-sidebar mat-icon {
-  font-size: 1rem;
-  width: 1rem;
-  height: 1rem;
-}
-
-.btn-logout-sidebar:hover {
-  background: #ef4444;
+  height: 100vh;
+  width: 100vw;
+  background-color: #000413; /* Fondo principal ajustado */
   color: #ffffff;
 }
 
-/* Separador */
-.profile-divider {
-  margin: 1.5rem 1rem !important;
-  border-color: rgba(255, 255, 255, 0.05) !important;
-}
-
-/* Items del Menú */
-.menu-list {
-  padding: 0 !important;
-}
-
-.nav-item-custom {
-  height: 48px !important;
-  margin: 4px 12px !important;
-  border-radius: 12px !important;
-  color: #94a3b8 !important;
-  transition: all 0.2s ease;
-}
-
-.nav-item-custom:hover {
-  background: rgba(255, 255, 255, 0.03) !important;
-  color: #ffffff !important;
-}
-
-/* Clase para resaltar el link activo */
-.active-link {
-  background: rgba(59, 130, 246, 0.08) !important;
-  color: #3b82f6 !important;
-  font-weight: 600;
-}
-
-/* --- ÁREA DE CONTENIDO PRINCIPAL --- */
-.main-content-area {
-  background-color: #07090e; /* Fondo oscuro unificado */
-  padding: 2rem;
-}
-
-/* --- TOOLBAR / CABECERA --- */
-.dashboard-toolbar {
-  display: flex;
-  align-items: center;
-  z-index: 10;
-  padding: 0 16px;
-}
-
-/* Agrupa el botón de menú y el logo/título pegados a la izquierda */
-.left-brand-section {
-  display: flex;
-  align-items: center;
-  gap: 8px; /* Espacio controlado entre el botón "hamburguesa" y el logo */
-}
-
-.app-name {
-  display: flex;
-  align-items: center;
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin: 0;
-  color: #ffffff;
-}
-
-.logo {
-  width: 40px;
-  height: auto;
-  margin-right: 10px;
-}
-
-/* El truco de magia: este elemento crece y ocupa todo el espacio libre del centro */
-.toolbar-spacer {
-  flex: 1 1 auto;
-}
-
-.right-actions {
-  display: flex;
-  gap: 8px;
-}
-
-/* --- TOOLBAR PREMIUM --- */
+/* --------------------------------------------------------------------------
+   1. NAVBAR SUPERIOR (#000413)
+   -------------------------------------------------------------------------- */
 .dashboard-toolbar-premium {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 64px !important;
-  padding: 0 24px !important;
-  z-index: 100;
-  
-  /* Efecto Glassmorphism (Vidrio Esmerilado) */
-  background: rgba(13, 15, 20, 0.7) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  
-  /* Borde inferior sutil de separación */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-}
-
-/* Sección de la Marca (Izquierda) */
-.brand-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-/* Estilo del botón de menú */
-.menu-toggle-btn {
-  color: #94a3b8 !important;
-  transition: color 0.2s ease, background-color 0.2s ease;
-}
-
-.menu-toggle-btn:hover {
+  height: 65px;
+  background-color: #000413 !important; /* Navbar con el color corporativo exacto */
   color: #ffffff !important;
-  background-color: rgba(255, 255, 255, 0.05) !important;
-}
-
-/* Contenedor del Logo y Texto */
-.brand-logo-container {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Línea divisora sutil */
   display: flex;
   align-items: center;
-  gap: 12px;
-}
+  padding: 0 2.5rem;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1000;
 
-.brand-logo {
-  width: 34px;
-  height: auto;
-  object-fit: contain;
-  /* Sutil reflejo de iluminación para el logo */
-  filter: drop-shadow(0 2px 8px rgba(59, 130, 246, 0.3));
-}
-
-/* Tipografía de marca elegante */
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-}
-
-.brand-title {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: #ffffff;
-}
-
-.brand-subtitle {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: #3b82f6; /* Azul insignia */
-}
-
-/* Espaciador central */
-.toolbar-spacer {
-  flex: 1 1 auto;
-}
-
-/* Acciones (Derecha) */
-.right-actions-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* Botones de acción minimalistas */
-.action-btn {
-  color: #94a3b8 !important;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-.action-btn:hover {
-  color: #ffffff !important;
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  transform: translateY(-1px);
-}
-
-/* Cambio dinámico de icono de tema */
-.theme-toggle:hover {
-  color: #fbbf24 !important; /* Brillo dorado para el sol/luna */
-}
-
-/* De aqui en adelante multicuenta*/
-.btn-add-account-sidebar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 8px 12px;
-  margin-top: 10px;
-  margin-bottom: 8px;
-  background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3); /* o el color de borde que combine con tu tema */
-  border-radius: 4px;
-  color: inherit;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-
-  mat-icon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-  }
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-}
-
-.btn-switch-account {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  background: none;
-  border: none;
-  color: #1976d2; /* Ajusta según tu paleta de color */
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-bottom: 8px;
-
-  mat-icon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-  }
-}
-
-.accounts-dropdown {
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.04);
-  border-radius: 6px;
-  padding: 6px;
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-
-  .account-item {
+  .brand-wrapper {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.2s ease;
+    gap: 2.5rem;
 
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.08);
+    .brand-logo-container {
+      display: flex;
+      align-items: center;
+
+      .brand-logo {
+        height: 36px;
+        width: auto;
+        filter: brightness(0) invert(1);
+        display: block;
+      }
     }
 
-    &.active {
-      background-color: rgba(25, 118, 210, 0.12);
-      font-weight: bold;
-    }
+    .toolbar-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
 
-    .account-avatar-mini {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background-color: #1976d2;
-      color: #fff;
+      .t-link {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: opacity 0.2s, color 0.2s;
+        text-decoration: none;
+
+        &:hover, &.active {
+          color: #ffffff;
+          opacity: 1;
+        }
+
+        &.live {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+        }
+
+        .red-dot {
+          width: 7px;
+          height: 7px;
+          background-color: #ff3b30;
+          border-radius: 50%;
+          display: inline-block;
+          box-shadow: 0 0 6px rgba(255, 59, 48, 0.8);
+        }
+      }
+
+      .more-dots {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.95rem;
+        letter-spacing: 2px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .toolbar-spacer {
+    flex: 1 1 auto;
+  }
+
+  .right-actions-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    position: relative;
+
+    .search-icon-btn {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.85);
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.75rem;
-    }
+      padding: 0;
+      transition: color 0.2s;
 
-    .account-details {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-
-      .account-name {
-        font-size: 0.8rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .account-badge {
-        font-size: 0.65rem;
-        color: #4caf50;
+      &:hover {
+        color: #ffffff;
       }
     }
 
-    .check-icon {
-      font-size: 16px;
-      width: 16px;
-      height: 16px;
-      color: #4caf50;
+    .user-avatar-trigger {
+      cursor: pointer;
+      padding: 2px;
+      border-radius: 50%;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      .profile-avatar-circle {
+        width: 38px;
+        height: 38px;
+        background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-weight: 800;
+        font-size: 1.1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+      }
     }
   }
 }
 
-.btn-remove-single-account {
-  z-index: 10; /* Asegura que esté por encima del contenedor */
-  cursor: pointer;
-  
-  mat-icon {
-    pointer-events: none; /* Hace que el clic atraviese el icono y le dé directo al botón */
-  }
-}
-
-.accounts-list-container {
+/* --------------------------------------------------------------------------
+   2. CARD POP-OVER MULTICUENTA (A JUEGO CON #000413)
+   -------------------------------------------------------------------------- */
+.google-style-accounts-card {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  width: 360px;
+  background-color: #050b1a; /* Ligeramente más claro para destacar del fondo #000413 */
+  border-radius: 24px;
+  padding: 1.25rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  max-height: 220px; /* Limita la altura en la barra lateral si hay muchas cuentas */
-  overflow-y: auto;
-  margin-bottom: 12px;
-  padding-right: 4px;
+  z-index: 2000;
+  animation: fadeIn 0.2s ease-out;
+
+  .card-top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    .user-active-email {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.65);
+      font-weight: 500;
+    }
+
+    .btn-close-card {
+      background: none;
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      opacity: 0.7;
+
+      &:hover { opacity: 1; }
+    }
+  }
+
+  .card-main-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1.25rem;
+
+    .profile-avatar-large {
+      position: relative;
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+      font-size: 2rem;
+      font-weight: 900;
+      margin-bottom: 0.75rem;
+
+      .camera-icon-badge {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background-color: #000413;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid #050b1a;
+
+        mat-icon {
+          font-size: 14px;
+          width: 14px;
+          height: 14px;
+          color: #ffffff;
+        }
+      }
+    }
+
+    .welcome-user-text {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0 0 0.25rem 0;
+    }
+
+    .active-badge-tag {
+      font-size: 0.75rem;
+      background-color: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      padding: 0.2rem 0.65rem;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+  }
+
+  .google-accounts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+
+    .account-row-item {
+      display: flex;
+      align-items: center;
+      padding: 0.65rem 0.85rem;
+      border-radius: 14px;
+      background-color: #0d172a;
+      cursor: pointer;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: #17253d;
+      }
+
+      &.active-row {
+        border: 1px solid rgba(59, 130, 246, 0.4);
+      }
+
+      .account-avatar-mini {
+        width: 32px;
+        height: 32px;
+        background-color: #2563eb;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: #ffffff;
+        margin-right: 0.75rem;
+      }
+
+      .account-info-col {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        .acc-name {
+          font-size: 0.88rem;
+          font-weight: 600;
+          color: #ffffff;
+        }
+
+        .acc-status {
+          font-size: 0.75rem;
+          color: rgba(255, 255, 255, 0.45);
+        }
+      }
+
+      .check-active-icon {
+        color: #3b82f6;
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        margin-right: 0.5rem;
+      }
+
+      .btn-remove-account {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.4);
+        cursor: pointer;
+        padding: 2px;
+        display: flex;
+
+        &:hover { color: #ef4444; }
+
+        mat-icon {
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+
+  .card-actions-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .google-action-btn {
+      width: 100%;
+      height: 46px;
+      background-color: #0d172a;
+      border: none;
+      border-radius: 20px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: #17253d;
+      }
+
+      .action-icon-circle {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 0.75rem;
+
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+        }
+      }
+
+      &.logout-all {
+        .action-icon-circle {
+          background-color: rgba(239, 68, 68, 0.15);
+          color: #ef4444;
+        }
+      }
+    }
+  }
 }
 
-.accounts-header {
-  margin: 12px 0 6px 0;
-  text-align: left;
-  .accounts-title {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    opacity: 0.7;
-  }
+/* --------------------------------------------------------------------------
+   3. ÁREA PRINCIPAL DE CONTENIDO (#000413)
+   -------------------------------------------------------------------------- */
+.main-content-area {
+  flex: 1;
+  background-color: #000413;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --------------------------------------------------------------------------
+   1. NAVBAR SUPERIOR (NEGRO MÁS PROFUNDO)
+   -------------------------------------------------------------------------- */
+.dashboard-toolbar-premium {
+  height: 65px;
+  background-color: #000000 !important; /* Negro absoluto o #020202 */
+  color: #ffffff !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Línea divisora muy sutil */
+  display: flex;
+  align-items: center;
+  padding: 0 2.5rem;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1000;
+  
+  /* ... resto de estilos del navbar se mantienen igual */
+}
+
+/* ==========================================================================
+   FIX COLOR NAVBAR CARACOL (SOBREESCRIBIR ANGULAR MATERIAL)
+   ========================================================================== */
+
+/* 1. Unificamos el fondo general del layout */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background-color: #000413 !important; /* Azul noche profundo de fondo */
+  color: #ffffff;
+}
+
+/* 2. Forzamos a la toolbar a tomar el color idéntico (o negro #000000) */
+mat-toolbar.dashboard-toolbar-premium,
+::ng-deep mat-toolbar.dashboard-toolbar-premium {
+  background-color: #000413 !important; /* O usa #000000 si lo prefieres en negro puro */
+  background: #000413 !important;
+  color: #ffffff !important;
+  height: 65px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: none !important;
+  padding: 0 2.5rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1000;
+}
+
+/* 3. Aseguramos que el área principal no tenga saltos de color */
+.main-content-area {
+  flex: 1;
+  background-color: #000413 !important;
+  padding: 2rem;
+  overflow-y: auto;
 }

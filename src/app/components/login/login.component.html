@@ -1,78 +1,123 @@
-<div class="welcome-wrapper">
-  
-  <div class="welcome-card-premium" [ngClass]="{'brand-ditu': brand === 'ditu', 'brand-caracol': brand === 'caracol'}">
+<div class="app-login-container" [ngClass]="brand">
+
+  <!-- ===================================================================
+       1. NAVBAR SUPERIOR (CARACOL O DITÚ)
+       =================================================================== -->
+  <header class="app-navbar">
     
-    <div class="logo-container">
-      <img *ngIf="brand === 'ditu'" 
-           src="assets/images/caracol.png" 
-           class="brand-logo ditu-logo" 
-           alt="Ditu por Caracol">
+    <!-- LADO IZQUIERDO: LOGO SECUNDARIO Y NAVEGACIÓN -->
+    <div class="navbar-left">
+      <!-- Muestra el logo de Caracol si brand === 'caracol' -->
       
+
+      <!-- Muestra el logo de Ditú si brand === 'ditu' -->
+      <a class="logo-link" *ngIf="brand === 'ditu'">
+        <img src="https://caracoltv.brightspotcdn.com/dims4/default/7869f1f/2147483647/strip/true/crop/253x83+0+0/resize/253x83!/format/webp/quality/75/?url=https%3A%2F%2Fcaracol-brightspot.s3.us-west-2.amazonaws.com%2Fcf%2F3b%2F85a87fa34e7ea6a1e855b5dd19d4%2Fctv.png" 
+             alt="Ditú" class="brand-logo ditu-logo">
+      </a>
       
+      <!-- Enlaces del Navbar -->
+      <nav class="nav-links">
+        <a class="nav-link active">Inicio</a>
+        <a class="nav-link">Programas</a>
+        <a class="nav-link">Actualidad</a>
+        <a class="nav-link">Desafío</a>
+        <a class="nav-link live"><span class="red-dot"></span>En vivo</a>
+        <a class="nav-link">Novelas</a>
+        <a class="nav-link">Humor</a>
+        <span class="more-dots">•••</span>
+      </nav>
     </div>
 
-    <div class="welcome-message">
-      <span class="welcome-tag">Inicio de Sesión</span>
-      <h1 class="welcome-title">Portal Empresarial</h1>
-      <p class="welcome-subtitle">Ingresa tus credenciales de red corporativas</p>
-    </div>
-    
-    <form (ngSubmit)="onLogin()" class="login-form" #loginForm="ngForm">
-      
-      <div *ngIf="errorMessage" class="error-alert">
-        <span class="error-icon">⚠️</span> {{ errorMessage }}
-      </div>
-
-      <div class="input-group">
-        <label for="username">Usuario Corporativo</label>
-        <input 
-          type="text" 
-          id="username" 
-          name="username" 
-          [(ngModel)]="username" 
-          placeholder="ej: mlopez" 
-          required 
-          autocomplete="username">
-      </div>
-
-      <div class="input-group">
-        <label for="password">Contraseña</label>
-        <input 
-          type="password" 
-          id="password" 
-          name="password" 
-          [(ngModel)]="password" 
-          placeholder="••••••••••••" 
-          required>
-      </div>
-
-      <button type="submit" class="submit-button" [disabled]="isLoading">
-        <span *ngIf="!isLoading">Ingresar</span>
-        <span *ngIf="isLoading" class="spinner"></span>
+    <!-- LADO DERECHO: BÚSQUEDA Y BOTÓN INGRESAR -->
+    <div class="navbar-right">
+      <button type="button" class="search-btn" aria-label="Buscar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
       </button>
 
-    </form>
-
-    <!-- NUEVO: Divisor visual para Social Login -->
-    <div class="social-divider">
-      <span>O ingresa con</span>
+      <button type="button" class="ingresar-header-btn">
+        Ingresar
+      </button>
     </div>
+  </header>
 
-    <!-- NUEVO: Botón Premium de Google -->
-    <button type="button" class="google-login-button" (click)="onSocialLogin('google')" [disabled]="isLoading">
-      <!-- Logo SVG oficial de Google (G de colores) -->
-      <svg class="google-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="18px" height="18px">
-        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-        <path fill="#4285F4" d="M46.64 24.32c0-1.55-.13-3.04-.36-4.5H24v9h12.72c-.55 2.91-2.21 5.38-4.69 7.04l7.25 5.62c4.24-3.92 6.68-9.69 6.68-16.16z"/>
-        <path fill="#FBBC05" d="M10.54 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59L2.56 13.22C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.98-6.19z"/>
-        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.25-5.62c-2.21 1.48-5.02 2.37-8.64 2.37-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-        <path fill="none" d="M0 0h48v48H0z"/>
-      </svg>
-      <span>Continuar con Google</span>
-    </button>
+  <!-- ===================================================================
+       2. CUERPO PRINCIPAL DEL LOGIN
+       =================================================================== -->
+  <main class="login-body">
+    <div class="login-card">
+      
+      <h1 class="login-title">¡NOS ENCANTA QUE ESTÉS AQUÍ!</h1>
+      <p class="login-subtitle">Empecemos con tu correo</p>
 
-    <div class="divider-line"></div>
-    
-    <span class="valorem-tag">Caracol Televisión • Grupo Valorem</span>
-  </div>
+      <!-- Mensaje de Error dinámico desde tu TS -->
+      <div class="error-banner" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <!-- FORMULARIO DE ACCESO (Vinculado a tus métodos ROPC) -->
+      <form (ngSubmit)="onLogin()" class="login-form" #loginForm="ngForm">
+        
+        <div class="input-group">
+          <input type="email" 
+                 name="username" 
+                 [(ngModel)]="username" 
+                 placeholder="jj@gmail.com" 
+                 class="caracol-input" 
+                 [disabled]="isLoading"
+                 required>
+          <span class="input-icon">✉</span>
+        </div>
+
+        <div class="input-group">
+          <input type="password" 
+                 name="password" 
+                 [(ngModel)]="password" 
+                 placeholder="Contraseña" 
+                 class="caracol-input" 
+                 [disabled]="isLoading"
+                 required>
+        </div>
+
+        <button type="submit" class="continuar-btn" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Continuar</span>
+          <span *ngIf="isLoading">Cargando...</span>
+        </button>
+      </form>
+
+      <div class="form-divider"></div>
+
+      <!-- BOTONES SOCIALES OUTLINED (Vinculados a tu onSocialLogin) -->
+      <div class="social-login-section">
+        <p class="social-text">Accede usando tu cuenta de</p>
+        
+        <div class="social-buttons-row">
+          
+          <!-- Botón Google -->
+          <button type="button" 
+                  class="social-icon-button" 
+                  (click)="onSocialLogin('google')" 
+                  [disabled]="isLoading" 
+                  aria-label="Ingresar con Google">
+            <span class="icon-text">G</span>
+          </button>
+
+          <!-- Botón Facebook -->
+          <button type="button" 
+                  class="social-icon-button" 
+                  (click)="onSocialLogin('facebook')" 
+                  [disabled]="isLoading" 
+                  aria-label="Ingresar con Facebook">
+            <span class="icon-text">f</span>
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
 </div>
